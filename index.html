@@ -2,21 +2,46 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Матвей гей пидр малая такмачка зхуйло уебище слоаманый ребенок</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background-image: url('fon.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      font-family: Arial, sans-serif;
-      color: black;
-    }
-  </style>
+  <title>Регистрация</title>
 </head>
-<body>
-  <h1>Матвей гей пидр малая такмачка зхуйло уебище слоаманый ребенок</h1>
+<body style="font-family: Arial; max-width: 300px; margin: 80px auto;">
+
+  <h2>Регистрация</h2>
+
+  <input type="email" id="email" placeholder="Email" style="width:100%; padding:8px; margin-bottom:8px;"><br>
+  <input type="password" id="password" placeholder="Пароль" style="width:100%; padding:8px; margin-bottom:8px;"><br>
+  <button onclick="register()" style="width:100%; padding:10px;">Зарегистрироваться</button>
+
+  <p id="msg"></p>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://mjvludmzasshgrahggjc.supabase.co',
+      'sb_publishable_lNK8RVX_7HIxipYHHhZDjA_5xTcWDEE'
+    );
+
+    window.register = async function () {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const msg = document.getElementById('msg');
+
+      msg.textContent = 'Отправка...';
+
+      const { error } = await supabase
+        .from('users')
+        .insert([{ email, password }]);
+
+      if (error) {
+        msg.textContent = 'Ошибка: ' + error.message;
+        msg.style.color = 'red';
+      } else {
+        msg.textContent = 'Готово! ✅';
+        msg.style.color = 'green';
+      }
+    };
+  </script>
+
 </body>
 </html>
